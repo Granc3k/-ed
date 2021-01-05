@@ -1,4 +1,5 @@
 async function prihlasit() {
+  let chatId = "ida8c4761e5eace3cf3b1551b7421870"
   let url = "https://nodejs-3260.rostiapp.cz/users/login";
   let body = {}
   body.username = document.getElementById("uz_jmeno").value;
@@ -9,12 +10,10 @@ async function prihlasit() {
   let pozadavek = await fetch(url, opt);
   let odpoved = await pozadavek.json()
   if (odpoved.status == "OK") {
+    ukaz_ced();
     token = odpoved.token;
     id = odpoved.id;
-    //document.getElementById("signin").hidden = true;
-    //document.getElementById("signup").hidden = true;
-    //document.getElementById("chat").hidden = false;
-    chatShow();
+    ced();
   }
   if (odpoved.error) {
     console.error(odpoved.error);
@@ -22,6 +21,7 @@ async function prihlasit() {
 }
 
 async function registrovat() {
+  let chatId = "ida8c4761e5eace3cf3b1551b7421870"
   let url = "https://nodejs-3260.rostiapp.cz/users/registry";
   let body = {}
   body.fullname = document.getElementById("jmeno").value;
@@ -37,14 +37,15 @@ async function registrovat() {
     console.error(odpoved.error);
   }
   if (odpoved.status == "OK") {
-    signinShow();
+    ukaz_ced();
   }
   console.log(odpoved);
 }
 
 
 
-async function chatShow() {
+async function ced() {
+  let chatId = "ida8c4761e5eace3cf3b1551b7421870"
   let url = "https://nodejs-3260.rostiapp.cz/chat/listMsgs";
   let body = {}
   body.token = token;
@@ -56,17 +57,17 @@ async function chatShow() {
   let pozadavek = await fetch(url, opt);
   let odpoved = await pozadavek.json()
   console.log(odpoved);
-  let pole = document.getElementById("ced_zpravy").innerHTML;
-  pole = ""
+  pole = "";
   for (let i = 0; i <= odpoved.lenght; i++){
     pole += odpoved[i].msg
   }
 }
 
-async function chatSendMessage() {
+async function posli_zpravu() {
+  let chatId = "ida8c4761e5eace3cf3b1551b7421870"
   let url = "https://nodejs-3260.rostiapp.cz/chat/addMsg";
   let z = document.getElementById("zpravy").value;
-  let body = {}
+  let body = {};
   body.token = token;
   body.chat = chatId;
   body.msg = z;
@@ -77,6 +78,25 @@ async function chatSendMessage() {
   let pole = document.getElementById("ced_zpravy").innerHTML;
   pole = ""
   for (let i = 0; i <= odpoved.lenght; i++){
-    pole += odpoved[i].msg
+    pole += odpoved[i].msg;
   }
+}
+function nemam_uzivatele(){
+  document.getElementById("registrace").style.display = "block";
+  document.getElementById("prihlaseni").style.display = "none";
+  document.getElementById("ced").style.display = "none";
+}
+function mam_uzivatele(){
+  document.getElementById("registrace").style.display = "none";
+  document.getElementById("prihlaseni").style.display = "block";
+  document.getElementById("ced").style.display = "none";
+}
+function ukaz_ced(){
+  document.getElementById("registrace").style.display = "none";
+  document.getElementById("prihlaseni").style.display = "none";
+  document.getElementById("ced").style.display = "block";
+}
+
+function onLoad(){
+  mam_uzivatele();
 }

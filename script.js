@@ -1,3 +1,5 @@
+let token
+
 async function prihlasit() {
   let chatId = "ida8c4761e5eace3cf3b1551b7421870"
   let url = "https://nodejs-3260.rostiapp.cz/users/login";
@@ -14,6 +16,7 @@ async function prihlasit() {
     token = odpoved.token;
     id = odpoved.id;
     ced();
+    setInterval(ced, 1000);
   }
   if (odpoved.error) {
     console.error(odpoved.error);
@@ -44,7 +47,6 @@ async function registrovat() {
 }
 
 
-
 async function ced() {
   ukaz_ced();
   let chatId = "ida8c4761e5eace3cf3b1551b7421870";
@@ -55,14 +57,14 @@ async function ced() {
   let opt = {};
   opt.method = "POST";
   opt.body = JSON.stringify(body);
-  console.log(opt.body);
+ // console.log(opt.body);
   let pozadavek = await fetch(url, opt);
-  let odpoved = await pozadavek.json()
-  console.log(odpoved);
-  pole = "";
-  for (let i = 0; i <= odpoved.lenght; i++){
-    pole += odpoved[i].msg;
+  let odpoved = await pozadavek.json();
+  let pole = "";
+  for(let zprava of odpoved){
+    pole += zprava.user + ": " + zprava.msg + " " + zprava.time +"<br>";
   }
+  document.getElementById("ced_zpravy").innerHTML = pole;
 }
 
 async function posli_zpravu() {
@@ -77,12 +79,19 @@ async function posli_zpravu() {
   opt.method = "POST";
   opt.body = JSON.stringify(body);
   console.log(opt.body);
-  let pole = document.getElementById("ced_zpravy").innerHTML;
-  pole = ""
-  for (let i = 0; i <= odpoved.lenght; i++){
-    pole += odpoved[i].msg;
+  let pozadavek = await fetch(url, opt);
+  let odpoved = await pozadavek.json();
+  let pole = "";
+  for(let zprava of odpoved){
+    pole += zprava.user + ": " + zprava.msg + " " + zprava.time +"<br>";
   }
+  document.getElementById("ced_zpravy").innerHTML = pole;
 }
+
+
+
+
+
 function nemam_uzivatele(){
   document.getElementById("registrace").style.display = "block";
   document.getElementById("prihlaseni").style.display = "none";
@@ -102,3 +111,4 @@ function ukaz_ced(){
 function onLoad(){
   mam_uzivatele();
 }
+

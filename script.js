@@ -28,22 +28,22 @@ async function registrovat() {
   let url = "https://nodejs-3260.rostiapp.cz/users/registry";
   let body = {}
   body.fullname = document.getElementById("jmeno").value;
-  body.username = document.getElementById("uz_jmeno").value;
-  body.password = document.getElementById("heslo").value;
-  body.email = document.getElementById("email").value;
+  body.username = document.getElementById("uz_jmeno_r").value;
+  body.password = document.getElementById("heslo_r").value;
+  body.email = document.getElementById("Email").value;
   let opt = {};
   opt.method = "POST";
   opt.body = JSON.stringify(body);
+  console.log(body);
   let pozadavek = await fetch(url, opt);
   let odpoved = await pozadavek.json()
   if (odpoved.error) {
     console.error(odpoved.error);
   }
   if (odpoved.status == "OK") {
-    token = odpoved.token;
-    ced();
+    document.getElementById("prihlaseni").innerHTML += "<br>Nyni se můžete přihlásit.";
+    mam_uzivatele();
   }
-  console.log(odpoved);
 }
 
 
@@ -87,10 +87,6 @@ async function posli_zpravu() {
   }
   document.getElementById("ced_zpravy").innerHTML = pole;
 }
-
-
-
-
 
 function nemam_uzivatele(){
   document.getElementById("registrace").style.display = "block";

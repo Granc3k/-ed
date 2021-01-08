@@ -37,7 +37,8 @@ async function registrovat() {
     console.error(odpoved.error);
   }
   if (odpoved.status == "OK") {
-    ukaz_ced();
+    token = odpoved.token;
+    ced();
   }
   console.log(odpoved);
 }
@@ -45,9 +46,10 @@ async function registrovat() {
 
 
 async function ced() {
-  let chatId = "ida8c4761e5eace3cf3b1551b7421870"
+  ukaz_ced();
+  let chatId = "ida8c4761e5eace3cf3b1551b7421870";
   let url = "https://nodejs-3260.rostiapp.cz/chat/listMsgs";
-  let body = {}
+  let body = {};
   body.token = token;
   body.chat = chatId;
   let opt = {};
@@ -59,7 +61,7 @@ async function ced() {
   console.log(odpoved);
   pole = "";
   for (let i = 0; i <= odpoved.lenght; i++){
-    pole += odpoved[i].msg
+    pole += odpoved[i].msg;
   }
 }
 
